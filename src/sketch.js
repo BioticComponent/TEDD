@@ -1,8 +1,18 @@
+let x = 0;
+
 function setup() {
-    createCanvas(300,300);
+    createCanvas(windowWidth,windowHeight);
     background(50);
 }
 
 function draw() {
-    ellipse(width/2, height/2, 30);
+    background(50);
+    fill('red');
+    ellipse(x, height/2, 30);
+    x++;
+    if (x > width) x = 0;
+}
+
+function drawLine(a,b, x, y) {
+    
 }
