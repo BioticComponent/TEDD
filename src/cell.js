@@ -5,6 +5,8 @@ class Cell {
         this.pos = pos; //position coordinates (x,y)
         this.designation = designation; //0 for land cell, 1 for road cell
         this.neighbors = []; //array of surrounding road cells for each road cell, empty if land cell
+        this.tentDist = 0; //hold tentative distance for dijkstras algorithm
+        this.path = []; //holds path from startCell to this cell
     }
 
     show() {
@@ -15,12 +17,17 @@ class Cell {
             fill(220);
         }
         rectMode(CORNER);
-        rect(this.pos.x, this.pos.y, width/dim, width/dim)
+        rect(this.pos.x, this.pos.y, mapSize/dim, mapSize/dim)
         if (this.designation == 1) {
             fill(150);
             rectMode(CENTER);
-            rect(this.pos.x + width/dim/2, this.pos.y + width/dim/2, width/dim/5, width/dim/5 )
+            rect(this.pos.x + mapSize/dim/2, this.pos.y + mapSize/dim/2, mapSize/dim/5, mapSize/dim/5 )
         }
+    }
+
+    rollover() {
+        // return ((mouseX > this.pos.x) && (mouseX < this.pos.x + mapSize/dim) && (mouseY > this.pos.y) && (mouseY < this.pos.y + mapSize/dim));
+        return (dist(this.pos.x + (mapSize/dim)/2, this.pos.y + (mapSize/dim)/2, mouseX, mouseY) < (mapSize/dim)/2);
     }
 
 }

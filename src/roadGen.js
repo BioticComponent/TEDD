@@ -1,7 +1,12 @@
 //create road map
 function recursiveRoadGeneration(a, b, dir) {
+    if (dir != 'r' && dir != 'd' && dir != 'l' && dir != 'u') {
+        noLoop();
+        console.log("direction not recognized in call to recursiveRoadGeneration()");
+        return;
+    }
     let roadLength;
-    let stopValue = 7;
+    let stopValue = 10;
     if (dir == 'r') {
         roadLength = makeRoad(a, b, dir);
         if (roadLength > stopValue) {
@@ -29,7 +34,7 @@ function recursiveRoadGeneration(a, b, dir) {
     }
 }
 
-//make a road from (a,b) to x spaces in direction dir
+//make a road from (a,b) in direction dir. road ends when it hits another road or end of map
 function makeRoad(a,b, dir) {
     if (dir != 'r' && dir != 'd' && dir != 'l' && dir != 'u') {
         noLoop();
