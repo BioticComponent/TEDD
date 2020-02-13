@@ -12,9 +12,15 @@ class Cell {
         if (this.designation == 1) { //is roadCell 
             fill(0);
         } else { //is landCell
-            fill(255);
+            fill(220);
         }
+        rectMode(CORNER);
         rect(this.pos.x, this.pos.y, width/dim, width/dim)
+        if (this.designation == 1) {
+            fill(150);
+            rectMode(CENTER);
+            rect(this.pos.x + width/dim/2, this.pos.y + width/dim/2, width/dim/5, width/dim/5 )
+        }
     }
 
 }
