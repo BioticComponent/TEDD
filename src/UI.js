@@ -2,6 +2,7 @@ function setupUI() {
     pickStartCellButton();
     pickEndCellButton();
     resetButton();
+    generateNewMapButton();
 }
 
 function checkForButtonsPressed() {
@@ -54,13 +55,17 @@ function resetButton() {
     reset.mousePressed(resetPoints);
 }
 
-function resetPoints() {
-    for (let cell of allCells) {
-        cell.path.splice(0,cell.path.length);
-    }
-    finished = 0;
-    startCellisSet = 0;
-    endCellisSet = 0;
-    startCellButtonPressed = 0;
-    endCellButtonPressed = 0;
+function generateNewMapButton() {
+    newMapButton = createButton('Generate New Map');
+    newMapButton.position(width - 127, 210);
+    newMapButton.size(120, 40);
+    newMapButton.mousePressed(generateNewMap);
 }
+
+function generateNewMap() {
+    fullReset();
+    initializeCellGrid();
+    recursiveRoadGeneration(0, floor((dim/2) + random(-(dim/4),(dim/4))), 'r');
+    setNeighbors();
+}
+
