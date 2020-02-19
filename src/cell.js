@@ -14,7 +14,7 @@ class Cell {
         if (this.designation == 1) { //is roadCell 
             fill(0);
         } else { //is landCell
-            fill(220);
+            fill(200,255,200);
         }
         rectMode(CORNER);
         rect(this.pos.x, this.pos.y, mapSize/dim, mapSize/dim)

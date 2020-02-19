@@ -17,7 +17,7 @@ let startCellisSet = 0;
 let endCellisSet = 0;
 
 function setup() {
-    randomSeed(2);
+    // randomSeed(2);
     createCanvas(mapSize + 150, mapSize);
     background(50);
     initializeCellGrid();
