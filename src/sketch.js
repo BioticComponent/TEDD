@@ -17,7 +17,7 @@ let startCellisSet = 0;
 let endCellisSet = 0;
 
 function setup() {
-    
+    randomSeed(2);
     createCanvas(mapSize + 150, mapSize);
     background(50);
     initializeCellGrid();
@@ -84,7 +84,9 @@ function setNeighbors() {
         let cell = roadCells[i];
         let iIndex = cell.i;
         let jIndex = cell.j;
-        let index = cellIndex(iIndex - 1, jIndex);
+        let index;
+        
+        index = cellIndex(iIndex - 1, jIndex);
         if (allCells[index] && allCells[index].designation == 1) {
             if (!cell.neighbors.includes(allCells[index])) {
                 cell.neighbors.push(allCells[index]);
@@ -96,16 +98,20 @@ function setNeighbors() {
                 cell.neighbors.push(allCells[index]);
             }
         }
-        index = cellIndex(iIndex, jIndex - 1);
-        if (allCells[index] && allCells[index].designation == 1) {
-            if (!cell.neighbors.includes(allCells[index])) {
-                cell.neighbors.push(allCells[index]);
+        if (jIndex != 0) {
+            index = cellIndex(iIndex, jIndex - 1);
+            if (allCells[index] && allCells[index].designation == 1) {
+                if (!cell.neighbors.includes(allCells[index])) {
+                    cell.neighbors.push(allCells[index]);
+                }
             }
         }
-        index = cellIndex(iIndex, jIndex + 1);
-        if (allCells[index] && allCells[index].designation == 1) {
-            if (!cell.neighbors.includes(allCells[index])) {
-                cell.neighbors.push(allCells[index]);
+        if (jIndex != dim - 1) {
+            index = cellIndex(iIndex, jIndex + 1);
+            if (allCells[index] && allCells[index].designation == 1) {
+                if (!cell.neighbors.includes(allCells[index])) {
+                    cell.neighbors.push(allCells[index]);
+                }
             }
         }
     }
