@@ -10,6 +10,7 @@ let startCellButtonPressed = 0;
 let endCellButton;
 let endCellButtonPressed = 0;
 
+let hqCell;
 //dijkstras
 let startCell, currentCell, endCell;
 let finished = 0;
@@ -21,7 +22,8 @@ function setup() {
     createCanvas(mapSize + 150, mapSize);
     background(50);
     initializeCellGrid();
-    recursiveRoadGeneration(0, floor((dim/2) + random(-(dim/4),(dim/4))), 'r');
+    setHeadQuarters();
+    generateRoads();
     setNeighbors();
 
     setupUI();
@@ -32,6 +34,7 @@ function draw() {
     for (let cell of allCells) {
         cell.show();
     }
+    
     drawNodes();
     checkForButtonsPressed();
 
@@ -41,6 +44,8 @@ function draw() {
     if (finished) {
         displayFinalPath();
     }
+
+    showHeadQuarters();
     // noLoop();
 }
 
@@ -76,6 +81,41 @@ function initializeCellGrid() {
             landCells.push(cell);
         }
     }
+}
+
+function setHeadQuarters() {
+    hqCell = allCells[cellIndex(floor(dim/2),floor(dim/2))];
+    let cornerCells = [];
+    let lbCornerCell = allCells[cellIndex(hqCell.i - 8, hqCell.j)];
+    cornerCells.push(lbCornerCell);
+    let ltCornerCell = allCells[cellIndex(hqCell.i - 8, hqCell.j - 6)];
+    cornerCells.push(ltCornerCell);
+    let rtCornerCell = allCells[cellIndex(hqCell.i + 8, hqCell.j - 6)];
+    cornerCells.push(rtCornerCell);
+    let rbCornerCell = allCells[cellIndex(hqCell.i + 8, hqCell.j)];
+    cornerCells.push(rbCornerCell);
+    
+    for (let cell of cornerCells) {
+        cell.designation = 1;
+        roadCells.push(cell);
+        landCells.splice(getIndexInLC(cell), 1);
+    }
+
+    makeRoad(lbCornerCell.i, lbCornerCell.j,'r');
+    makeRoad(rbCornerCell.i, rbCornerCell.j,'u');
+    makeRoad(rtCornerCell.i, rtCornerCell.j,'l');
+    makeRoad(ltCornerCell.i, ltCornerCell.j,'d');
+
+}
+
+function showHeadQuarters() {
+    let referenceCell = allCells[cellIndex(hqCell.i - 6, hqCell.j - 4)];
+    noStroke();
+    fill(0);
+    rect(referenceCell.pos.x - (mapSize/dim)/2, referenceCell.pos.y - (mapSize/dim)/2, (mapSize/dim)*6, (mapSize/dim)*4);
+    textSize(16);
+    fill(220);
+    text('HQ', referenceCell.pos.x + 3, referenceCell.pos.y + 15);
 }
 
 //set all neighbors for each road cell

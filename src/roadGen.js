@@ -1,3 +1,11 @@
+function generateRoads() {
+    recursiveRoadGeneration(hqCell.i, hqCell.j - 6, 'u');
+    recursiveRoadGeneration(hqCell.i, hqCell.j, 'd');
+    recursiveRoadGeneration(hqCell.i - 8, hqCell.j - 3, 'l');
+    recursiveRoadGeneration(hqCell.i + 8, hqCell.j - 3, 'r');
+
+}
+
 //create road map
 function recursiveRoadGeneration(a, b, dir) {
     if (dir != 'r' && dir != 'd' && dir != 'l' && dir != 'u') {
@@ -6,7 +14,7 @@ function recursiveRoadGeneration(a, b, dir) {
         return;
     }
     let roadLength;
-    let stopValue = 10;
+    let stopValue = 7;
     if (dir == 'r') {
         roadLength = makeRoad(a, b, dir);
         if (roadLength > stopValue) {

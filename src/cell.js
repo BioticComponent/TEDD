@@ -11,7 +11,9 @@ class Cell {
 
     show() {
         noStroke();
-        if (this.designation == 1) { //is roadCell 
+        if (allCells[cellIndex(this.i,this.j)] == hqCell) {
+            fill('red');
+        } else if (this.designation == 1) { //is roadCell 
             fill(0);
         } else { //is landCell
             fill(200,255,200);

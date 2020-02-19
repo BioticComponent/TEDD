@@ -65,7 +65,8 @@ function generateNewMapButton() {
 function generateNewMap() {
     fullReset();
     initializeCellGrid();
-    recursiveRoadGeneration(0, floor((dim/2) + random(-(dim/4),(dim/4))), 'r');
+    setHeadQuarters();
+    generateRoads();
     setNeighbors();
 }
 
