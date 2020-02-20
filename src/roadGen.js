@@ -6,6 +6,26 @@ function generateRoads() {
 
 }
 
+function isNotValidMap() {
+    let surroundingCellCount;
+    for (cell of roadCells) {
+        surroundingCellCount = 0;
+        if (allCells[cellIndex(cell.i + 1, cell.j)] && allCells[cellIndex(cell.i + 1, cell.j)].designation == 1) {
+            surroundingCellCount++;
+        }
+        if (allCells[cellIndex(cell.i + 1, cell.j + 1)] && allCells[cellIndex(cell.i + 1, cell.j + 1)].designation == 1) {
+            surroundingCellCount++;
+        }
+        if (allCells[cellIndex(cell.i, cell.j + 1)] && allCells[cellIndex(cell.i, cell.j + 1)].designation == 1) {
+            surroundingCellCount++;
+        }
+        if (surroundingCellCount == 3) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 //create road map
 function recursiveRoadGeneration(a, b, dir) {
     if (dir != 'r' && dir != 'd' && dir != 'l' && dir != 'u') {
@@ -14,7 +34,7 @@ function recursiveRoadGeneration(a, b, dir) {
         return;
     }
     let roadLength;
-    let stopValue = 7;
+    let stopValue = 8;
     if (dir == 'r') {
         roadLength = makeRoad(a, b, dir);
         if (roadLength > stopValue) {

@@ -63,10 +63,13 @@ function generateNewMapButton() {
 }
 
 function generateNewMap() {
-    fullReset();
-    initializeCellGrid();
-    setHeadQuarters();
-    generateRoads();
+    
+    do {
+        fullReset();
+        initializeCellGrid();
+        setHeadQuarters();
+        generateRoads();
+    } while (isNotValidMap());
     setNeighbors();
 }
 

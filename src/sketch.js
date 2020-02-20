@@ -18,12 +18,17 @@ let startCellisSet = 0;
 let endCellisSet = 0;
 
 function setup() {
-    // randomSeed(2);
+    // randomSeed(1);
     createCanvas(mapSize + 150, mapSize);
     background(50);
-    initializeCellGrid();
-    setHeadQuarters();
-    generateRoads();
+    
+    do {
+        fullReset();
+        initializeCellGrid();
+        setHeadQuarters();
+        generateRoads();
+    } while (isNotValidMap());
+    
     setNeighbors();
 
     setupUI();
@@ -110,12 +115,23 @@ function setHeadQuarters() {
 
 function showHeadQuarters() {
     let referenceCell = allCells[cellIndex(hqCell.i - 6, hqCell.j - 4)];
+    //HQ Building
     noStroke();
     fill(0);
     rect(referenceCell.pos.x - (mapSize/dim)/2, referenceCell.pos.y - (mapSize/dim)/2, (mapSize/dim)*6, (mapSize/dim)*4);
     textSize(16);
     fill(220);
     text('HQ', referenceCell.pos.x + 3, referenceCell.pos.y + 15);
+    //HQ Parking Lot
+    fill(100);
+    rect(referenceCell.pos.x + (mapSize/dim)*5.5, referenceCell.pos.y - (mapSize/dim)/2, (mapSize/dim)*8, (mapSize/dim)*4);
+    rect(referenceCell.pos.x + (mapSize/dim)*5.5, referenceCell.pos.y + (mapSize/dim)*3.5, (mapSize/dim)*2, (mapSize/dim)/2);
+    stroke(255);
+    strokeWeight(1);
+    line(referenceCell.pos.x + (mapSize/dim)*7.5, referenceCell.pos.y + (mapSize/dim)*1.5, referenceCell.pos.x + (mapSize/dim)*13.5, referenceCell.pos.y + (mapSize/dim)*1.5);
+    for (let i = 0; i < 4; i++) {
+        line(referenceCell.pos.x + (mapSize/dim)*(7.5 + i * 2), referenceCell.pos.y, referenceCell.pos.x + (mapSize/dim)*(7.5 + i * 2), referenceCell.pos.y + (mapSize/dim)*3);
+    }
 }
 
 //set all neighbors for each road cell

@@ -11,9 +11,10 @@ class Cell {
 
     show() {
         noStroke();
-        if (allCells[cellIndex(this.i,this.j)] == hqCell) {
+        // stroke(0);
+        /*if (allCells[cellIndex(this.i,this.j)] == hqCell) {
             fill('red');
-        } else if (this.designation == 1) { //is roadCell 
+        } else */if (this.designation == 1) { //is roadCell 
             fill(0);
         } else { //is landCell
             fill(200,255,200);
