@@ -11,10 +11,7 @@ class Cell {
 
     show() {
         noStroke();
-        // stroke(0);
-        /*if (allCells[cellIndex(this.i,this.j)] == hqCell) {
-            fill('red');
-        } else */if (this.designation == 1) { //is roadCell 
+        if (this.designation == 1) { //is roadCell 
             fill(0);
         } else { //is landCell
             fill(200,255,200);
@@ -29,7 +26,7 @@ class Cell {
     }
 
     rollover() {
-        // return ((mouseX > this.pos.x) && (mouseX < this.pos.x + mapSize/dim) && (mouseY > this.pos.y) && (mouseY < this.pos.y + mapSize/dim));
+        
         return (dist(this.pos.x + (mapSize/dim)/2, this.pos.y + (mapSize/dim)/2, mouseX, mouseY) < (mapSize/dim)/2);
     }
 

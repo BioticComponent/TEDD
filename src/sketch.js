@@ -20,7 +20,7 @@ let endCellisSet = 0;
 
 function setup() {
     // randomSeed(1);
-    // frameRate(5);
+    // frameRate(100);
     createCanvas(mapSize + 150, mapSize);
     background(50);
 

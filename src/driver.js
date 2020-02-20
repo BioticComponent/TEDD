@@ -11,11 +11,10 @@ class Driver {
 
     move() {
         if (this.isDelivering == true) {
-            if (this.pathPosition < this.path.length - 5) {
-                this.pathPosition += 5;
+            if (this.pathPosition < this.path.length - 1) {
+                this.pathPosition += 1;
             } else {
                 this.isDelivering = false;
-                
             }
         }
         
@@ -59,7 +58,7 @@ class Driver {
             getCell = this.path[this.pathPosition];
             noStroke();
             fill(this.color);
-            rect(getCell.pos.x,getCell.pos.y,(mapSize/dim), (mapSize/dim));
+            rect(getCell.pos.x,getCell.pos.y,(mapSize/dim)*1.5, (mapSize/dim)*1.5);
         }
     }
 }
