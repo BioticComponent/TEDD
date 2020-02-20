@@ -7,16 +7,8 @@ let drivers = [];
 let dim = 100; // how many cells x cells in map
 let mapSize = 600; //size of map
 
-//UI
-let startCellButtonPressed = 0;
-let endCellButtonPressed = 0;
-
 let hqCell;
-//dijkstras
-let startCellTP, currentCellTP, endCellTP;
-let finishedTP = 0;
-let startCellisSet = 0;
-let endCellisSet = 0;
+
 
 function setup() {
     // randomSeed(1);
@@ -42,16 +34,6 @@ function draw() {
         cell.show();
     }
     
-    drawNodes();
-    checkForButtonsPressed();
-
-    if (startCellisSet && endCellisSet && !finishedTP) {
-        dijkstrasTestPoints();
-    } 
-    if (finishedTP) {
-        displayFinalPathTestPoints();
-    }
-
     showHeadQuarters();
 
     //move and display drivers
@@ -60,28 +42,6 @@ function draw() {
         driver.show();
     }
     // noLoop();
-}
-
-function mousePressed() {
-    if (startCellButtonPressed) {
-        for (let cell of roadCells) {
-            if (cell.rollover()) {
-                startCellTP = cell;
-                currentCellTP = startCellTP;
-                startCellButtonPressed = 0;
-                startCellisSet = 1;
-            }
-        }
-    }
-    if (endCellButtonPressed) {
-        for (let cell of roadCells) {
-            if (cell.rollover()) {
-                endCellTP = cell;
-                endCellButtonPressed = 0;
-                endCellisSet = 1;
-            }
-        }
-    }
 }
 
 //create grid of cells and insert them into cells array
@@ -208,16 +168,5 @@ function setNeighbors() {
                 }
             }
         }
-    }
-}
-
-function drawNodes() {
-    if (startCellisSet) {
-        fill('green');
-        ellipse(startCellTP.pos.x + (mapSize/dim)/2, startCellTP.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
-    }
-    if (endCellisSet) {
-        fill('red');
-        ellipse(endCellTP.pos.x + (mapSize/dim)/2, endCellTP.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
     }
 }

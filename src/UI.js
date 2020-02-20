@@ -1,73 +1,7 @@
 function setupUI() {
-    pickStartCellButton();
-    pickEndCellButton();
-    createResetPointsButton();
     generateNewMapButton();
     createAddDriverButton();
     createRemoveDriverButton();
-}
-
-//FOR TESTING PURPOSES -- pick points /////////////////////////////////////////////
-
-function checkForButtonsPressed() {
-    if (startCellButtonPressed) {
-        for (let cell of roadCells) {
-            if (cell.rollover()) {
-                fill('green');
-                ellipse(cell.pos.x + (mapSize/dim)/2, cell.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
-            }
-        }
-    }
-    if (endCellButtonPressed) {
-        for (let cell of roadCells) {
-            if (cell.rollover()) {
-                fill('red');
-                ellipse(cell.pos.x + (mapSize/dim)/2, cell.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
-            }
-        }
-    }
-}
-
-function pickStartCellButton() {
-    let startCellButton = createButton('Pick Start Point');
-    startCellButton.position(width - 127, 30);
-    startCellButton.size(55, 50);
-    startCellButton.mousePressed(pickStartCell);
-}
-
-function pickStartCell() {
-    startCellisSet = 0;
-    startCellButtonPressed = 1;
-}
-
-function pickEndCellButton() {
-    let endCellButton = createButton('Pick End Point');
-    endCellButton.position(width - 62, 30);
-    endCellButton.size(55, 50);
-    endCellButton.mousePressed(pickEndCell);
-}
-
-function pickEndCell() {
-    endCellisSet = 0;
-    endCellButtonPressed = 1;
-}
-
-function createResetPointsButton() {
-    let resetPointsButton = createButton('Reset Points');
-    resetPointsButton.position(width - 127, 90);
-    resetPointsButton.size(120, 40);
-    resetPointsButton.mousePressed(resetPoints);
-}
-
-function resetPoints() {
-    for (let cell of allCells) {
-        cell.path.splice(0,cell.path.length);
-    }
-    finishedTP = 0;
-    startCellisSet = 0;
-    endCellisSet = 0;
-    startCellButtonPressed = 0;
-    endCellButtonPressed = 0;
 }
 
 //generate new map button//////////////////////////////////////////////////////////
@@ -79,7 +13,6 @@ function generateNewMapButton() {
 }
 
 function generateNewMap() {
-    
     do {
         fullReset();
         initializeCellGrid();

@@ -13,8 +13,10 @@ class Driver {
         if (this.isDelivering == true) {
             if (this.pathPosition < this.path.length - 1) {
                 this.pathPosition += 1;
+                this.location = this.path[this.pathPosition];
             } else {
                 this.isDelivering = false;
+                this.location = hqCell;
             }
         }
         
@@ -25,6 +27,7 @@ class Driver {
         if (this.isDelivering == false) {
             noStroke();
             fill(this.color);
+            //PARKING SPOTS AT HQ
             switch(this.parkingSpot) {
                 case 1:
                     getCell = allCells[cellIndex(hqCell.i + 2, hqCell.j - 2)];
@@ -54,11 +57,10 @@ class Driver {
                     console.log("too many drivers!");
                     break;
             }
-        } else {
-            getCell = this.path[this.pathPosition];
+        } else { //driver is driving, show current location
             noStroke();
             fill(this.color);
-            rect(getCell.pos.x,getCell.pos.y,(mapSize/dim)*1.5, (mapSize/dim)*1.5);
+            rect(this.location.pos.x,this.location.pos.y,(mapSize/dim)*1.5, (mapSize/dim)*1.5);
         }
     }
 }
