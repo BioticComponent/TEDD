@@ -19,9 +19,10 @@ let endCellisSet = 0;
 
 function setup() {
     // randomSeed(1);
+    // frameRate(5);
     createCanvas(mapSize + 150, mapSize);
     background(50);
-    
+
     do {
         fullReset();
         initializeCellGrid();
