@@ -1,9 +1,13 @@
 function setupUI() {
     pickStartCellButton();
     pickEndCellButton();
-    resetButton();
+    createResetPointsButton();
     generateNewMapButton();
+    createAddDriverButton();
+    createRemoveDriverButton();
 }
+
+//FOR TESTING PURPOSES -- pick points /////////////////////////////////////////////
 
 function checkForButtonsPressed() {
     if (startCellButtonPressed) {
@@ -25,9 +29,9 @@ function checkForButtonsPressed() {
 }
 
 function pickStartCellButton() {
-    startCellButton = createButton('Pick Start Point');
+    let startCellButton = createButton('Pick Start Point');
     startCellButton.position(width - 127, 30);
-    startCellButton.size(120, 40);
+    startCellButton.size(55, 50);
     startCellButton.mousePressed(pickStartCell);
 }
 
@@ -37,9 +41,9 @@ function pickStartCell() {
 }
 
 function pickEndCellButton() {
-    endCellButton = createButton('Pick End Point');
-    endCellButton.position(width - 127, 90);
-    endCellButton.size(120, 40);
+    let endCellButton = createButton('Pick End Point');
+    endCellButton.position(width - 62, 30);
+    endCellButton.size(55, 50);
     endCellButton.mousePressed(pickEndCell);
 }
 
@@ -48,16 +52,28 @@ function pickEndCell() {
     endCellButtonPressed = 1;
 }
 
-function resetButton() {
-    reset = createButton('Reset');
-    reset.position(width - 127, 150);
-    reset.size(120, 40);
-    reset.mousePressed(resetPoints);
+function createResetPointsButton() {
+    let resetPointsButton = createButton('Reset Points');
+    resetPointsButton.position(width - 127, 90);
+    resetPointsButton.size(120, 40);
+    resetPointsButton.mousePressed(resetPoints);
 }
 
+function resetPoints() {
+    for (let cell of allCells) {
+        cell.path.splice(0,cell.path.length);
+    }
+    finishedTP = 0;
+    startCellisSet = 0;
+    endCellisSet = 0;
+    startCellButtonPressed = 0;
+    endCellButtonPressed = 0;
+}
+
+//generate new map button//////////////////////////////////////////////////////////
 function generateNewMapButton() {
     newMapButton = createButton('Generate New Map');
-    newMapButton.position(width - 127, 210);
+    newMapButton.position(width - 127, 140);
     newMapButton.size(120, 40);
     newMapButton.mousePressed(generateNewMap);
 }
@@ -70,6 +86,39 @@ function generateNewMap() {
         setHeadQuarters();
         generateRoads();
     } while (isNotValidMap());
+    getEdgeRoadCells();
     setNeighbors();
 }
 
+
+//adding and removing drivers//////////////////////////////////////////////////////
+function createAddDriverButton() {
+    let addDriverButton = createButton('Add Driver');
+    addDriverButton.position(width - 127, 190);
+    addDriverButton.size(55, 40);
+    addDriverButton.mousePressed(addDriver);
+}
+
+function addDriver() {
+    let availableColors = [color('red'), color('cyan'), color('yellow'), color('white'), color('orange'), color('magenta')];
+    if (drivers.length < 6) {
+        let driver = new Driver();
+        driver.parkingSpot = drivers.length + 1;
+        driver.color = availableColors[driver.parkingSpot - 1];
+        driver.path = dijkstrasAtoB(driver.inlet, hqCell);
+        drivers.push(driver);
+    }
+}
+
+function createRemoveDriverButton() {
+    let removeDriverButton = createButton('Remove Driver');
+    removeDriverButton.position(width - 62, 190);
+    removeDriverButton.size(55, 40);
+    removeDriverButton.mousePressed(removeDriver);
+}
+
+function removeDriver() {
+    if (drivers.length > 0) {
+        drivers.splice(drivers.length - 1, 1);
+    }
+}

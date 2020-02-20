@@ -2,18 +2,19 @@
 let allCells = [];
 let landCells = [];
 let roadCells = [];
+let edgeRoadCells = [];
+let drivers = [];
 let dim = 100; // how many cells x cells in map
 let mapSize = 600; //size of map
 
-let startCellButton;
+//UI
 let startCellButtonPressed = 0;
-let endCellButton;
 let endCellButtonPressed = 0;
 
 let hqCell;
 //dijkstras
-let startCell, currentCell, endCell;
-let finished = 0;
+let startCellTP, currentCellTP, endCellTP;
+let finishedTP = 0;
 let startCellisSet = 0;
 let endCellisSet = 0;
 
@@ -29,7 +30,7 @@ function setup() {
         setHeadQuarters();
         generateRoads();
     } while (isNotValidMap());
-    
+    getEdgeRoadCells();
     setNeighbors();
 
     setupUI();
@@ -44,14 +45,20 @@ function draw() {
     drawNodes();
     checkForButtonsPressed();
 
-    if (startCellisSet && endCellisSet && !finished) {
-        dijkstras();
+    if (startCellisSet && endCellisSet && !finishedTP) {
+        dijkstrasTestPoints();
     } 
-    if (finished) {
-        displayFinalPath();
+    if (finishedTP) {
+        displayFinalPathTestPoints();
     }
 
     showHeadQuarters();
+
+    //move and display drivers
+    for (let driver of drivers) {
+        driver.move();
+        driver.show();
+    }
     // noLoop();
 }
 
@@ -59,8 +66,8 @@ function mousePressed() {
     if (startCellButtonPressed) {
         for (let cell of roadCells) {
             if (cell.rollover()) {
-                startCell = cell;
-                currentCell = startCell;
+                startCellTP = cell;
+                currentCellTP = startCellTP;
                 startCellButtonPressed = 0;
                 startCellisSet = 1;
             }
@@ -69,7 +76,7 @@ function mousePressed() {
     if (endCellButtonPressed) {
         for (let cell of roadCells) {
             if (cell.rollover()) {
-                endCell = cell;
+                endCellTP = cell;
                 endCellButtonPressed = 0;
                 endCellisSet = 1;
             }
@@ -135,6 +142,36 @@ function showHeadQuarters() {
     }
 }
 
+function getEdgeRoadCells() {
+    let i, j;
+    i = 0
+    for (j = 0; j < dim - 1; j++) {
+        if (allCells[cellIndex(i,j)].designation == 1) {
+            edgeRoadCells.push(allCells[cellIndex(i,j)]);
+        }
+    }
+    j = dim - 1;
+    for (i = 0; i < dim - 1; i++) {
+        if (allCells[cellIndex(i,j)].designation == 1) {
+            edgeRoadCells.push(allCells[cellIndex(i,j)]);
+        }
+    }
+    i = dim - 1;
+    for (j = 0; j < dim - 1; j++) {
+        if (allCells[cellIndex(i,j)].designation == 1) {
+            edgeRoadCells.push(allCells[cellIndex(i,j)]);
+        }
+    }
+    j = 0;
+    for (i = 0; i < dim - 1; i++) {
+        if (allCells[cellIndex(i,j)].designation == 1) {
+            edgeRoadCells.push(allCells[cellIndex(i,j)]);
+        }
+    }
+
+
+}
+
 //set all neighbors for each road cell
 function setNeighbors() {
     for (let i = 0; i < roadCells.length; i++) {
@@ -177,10 +214,10 @@ function setNeighbors() {
 function drawNodes() {
     if (startCellisSet) {
         fill('green');
-        ellipse(startCell.pos.x + (mapSize/dim)/2, startCell.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
+        ellipse(startCellTP.pos.x + (mapSize/dim)/2, startCellTP.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
     }
     if (endCellisSet) {
         fill('red');
-        ellipse(endCell.pos.x + (mapSize/dim)/2, endCell.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
+        ellipse(endCellTP.pos.x + (mapSize/dim)/2, endCellTP.pos.y + (mapSize/dim)/2, (mapSize/dim)*3);
     }
 }
