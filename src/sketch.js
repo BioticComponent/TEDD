@@ -233,7 +233,7 @@ function makeBuildings() {
         }
         let xlen = random(40, 60);
         let ylen = random(40, 60);
-        buildings.fill(random(100,200));
+        buildings.fill(random(50,150));
         buildings.rect(x,y,xlen,ylen);
     }
 }
