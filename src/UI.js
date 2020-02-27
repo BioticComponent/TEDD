@@ -7,7 +7,7 @@ function setupUI() {
 //generate new map button//////////////////////////////////////////////////////////
 function generateNewMapButton() {
     newMapButton = createButton('Generate New Map');
-    newMapButton.position(width - 127, 30);
+    newMapButton.position(width - 127, 25);
     newMapButton.size(120, 40);
     newMapButton.mousePressed(generateNewMap);
 }
@@ -18,7 +18,7 @@ function generateNewMap() {
         initializeCellGrid();
         setHeadQuarters();
         generateRoads();
-        
+        makeBuildings(); 
     } while (isNotValidMap());
     getEdgeRoadCells();
     setNeighbors();
@@ -29,7 +29,7 @@ function generateNewMap() {
 //adding and removing drivers//////////////////////////////////////////////////////
 function createAddDriverButton() {
     let addDriverButton = createButton('Add Driver');
-    addDriverButton.position(width - 127, 80);
+    addDriverButton.position(width - 127, 75);
     addDriverButton.size(55, 40);
     addDriverButton.mousePressed(addDriver);
 }
@@ -44,7 +44,7 @@ function addDriver() {
 
 function createRemoveDriverButton() {
     let removeDriverButton = createButton('Remove Driver');
-    removeDriverButton.position(width - 62, 80);
+    removeDriverButton.position(width - 62, 75);
     removeDriverButton.size(55, 40);
     removeDriverButton.mousePressed(removeDriver);
 }
