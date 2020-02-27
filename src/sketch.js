@@ -4,26 +4,31 @@ let landCells = [];
 let roadCells = [];
 let edgeRoadCells = [];
 let drivers = [];
+let driversOnShift = 0;
 let dim = 100; // how many cells x cells in map
 let mapSize = 600; //size of map
 
 let hqCell;
 
+let noBuildCells = [];
+
 
 function setup() {
     // randomSeed(1);
-    // frameRate(100);
     createCanvas(mapSize + 150, mapSize);
     background(50);
-
+    
     do {
         fullReset();
         initializeCellGrid();
         setHeadQuarters();
-        generateRoads();
+        generateRoads();       
     } while (isNotValidMap());
     getEdgeRoadCells();
     setNeighbors();
+    // makeBuildings();
+    hireDrivers();
+    
 
     setupUI();
 }
@@ -36,12 +41,29 @@ function draw() {
     
     showHeadQuarters();
 
+    for(let cell of noBuildCells) {
+        fill('red');
+        rect(cell.pos.x, cell.pos.y, (mapSize/dim), (mapSize/dim));
+    }
+
     //move and display drivers
     for (let driver of drivers) {
         driver.move();
         driver.show();
     }
     // noLoop();
+}
+
+function hireDrivers() {
+    let availableColors = [color('red'), color('cyan'), color('yellow'), color('white'), color('orange'), color('magenta')];
+    for (let i = 0; i < 6; i++) {
+        let driver = new Driver();
+        driver.parkingSpot = i + 1;
+        driver.color = availableColors[i];
+        // driver.path = dijkstrasAtoB(driver.inlet, hqCell);
+        driver.location = hqCell;
+        drivers.push(driver);
+    }
 }
 
 //create grid of cells and insert them into cells array
@@ -169,4 +191,27 @@ function setNeighbors() {
             }
         }
     }
+}
+
+function makeBuildings() {
+    //remove roads
+    for (let roadCell of roadCells) {
+        noBuildCells.push(roadCell);
+    }
+    //remove edges
+    for (let i = 0; i < dim; i++) {
+        noBuildCells.push(allCells[cellIndex(i,0)]);
+        noBuildCells.push(allCells[cellIndex(i,dim-1)]);
+        noBuildCells.push(allCells[cellIndex(0,i)]);
+        noBuildCells.push(allCells[cellIndex(dim-1,i)]);
+    }
+    //remove HQ plot
+    let refCell = allCells[cellIndex(hqCell.i - 7, hqCell.j - 5)];
+    for (let i = 0; i < 15; i++) {
+        for (let j = 0; j < 5; j++) {
+            noBuildCells.push(allCells[cellIndex(refCell.i + i, refCell.j + j)]);
+        }
+    }
+    //remove one unit wide plots
+    
 }

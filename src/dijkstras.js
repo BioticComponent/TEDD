@@ -1,6 +1,6 @@
 function dijkstrasAtoB(A, B) {
     clearCellPaths();
-    let path = [];
+    let returnPath = [];
     let startCell, currentCell, endCell;
     currentCell = startCell = A;
     endCell = B;
@@ -41,8 +41,8 @@ function dijkstrasAtoB(A, B) {
         }
         currentCell = unvisited[savedIndex];
     }
-
-    return endCell.path;
+    returnPath = [...endCell.path];
+    return returnPath;
 }
 
 function clearCellPaths() {

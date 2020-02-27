@@ -7,7 +7,7 @@ function setupUI() {
 //generate new map button//////////////////////////////////////////////////////////
 function generateNewMapButton() {
     newMapButton = createButton('Generate New Map');
-    newMapButton.position(width - 127, 140);
+    newMapButton.position(width - 127, 30);
     newMapButton.size(120, 40);
     newMapButton.mousePressed(generateNewMap);
 }
@@ -18,40 +18,41 @@ function generateNewMap() {
         initializeCellGrid();
         setHeadQuarters();
         generateRoads();
+        
     } while (isNotValidMap());
     getEdgeRoadCells();
     setNeighbors();
+    hireDrivers();
 }
 
 
 //adding and removing drivers//////////////////////////////////////////////////////
 function createAddDriverButton() {
     let addDriverButton = createButton('Add Driver');
-    addDriverButton.position(width - 127, 190);
+    addDriverButton.position(width - 127, 80);
     addDriverButton.size(55, 40);
     addDriverButton.mousePressed(addDriver);
 }
 
 function addDriver() {
-    let availableColors = [color('red'), color('cyan'), color('yellow'), color('white'), color('orange'), color('magenta')];
-    if (drivers.length < 6) {
-        let driver = new Driver();
-        driver.parkingSpot = drivers.length + 1;
-        driver.color = availableColors[driver.parkingSpot - 1];
-        driver.path = dijkstrasAtoB(driver.inlet, hqCell);
-        drivers.push(driver);
+    if (driversOnShift < 6 && drivers[driversOnShift].onShift == false) {
+        drivers[driversOnShift].onShift = true;
+        drivers[driversOnShift].awayFromHQ = false;
+        driversOnShift++;
     }
 }
 
 function createRemoveDriverButton() {
     let removeDriverButton = createButton('Remove Driver');
-    removeDriverButton.position(width - 62, 190);
+    removeDriverButton.position(width - 62, 80);
     removeDriverButton.size(55, 40);
     removeDriverButton.mousePressed(removeDriver);
 }
 
 function removeDriver() {
-    if (drivers.length > 0) {
-        drivers.splice(drivers.length - 1, 1);
+    if (driversOnShift > 0 && drivers[driversOnShift - 1].onShift == true) {
+        drivers[driversOnShift - 1].onShift = false;
+        drivers[driversOnShift - 1].awayFromHQ = false;
+        driversOnShift--;
     }
 }

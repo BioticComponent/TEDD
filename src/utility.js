@@ -14,4 +14,5 @@ function fullReset() {
     roadCells.length = 0;
     drivers.length = 0;
     edgeRoadCells.length = 0;
+    driversOnShift = 0;
 }
