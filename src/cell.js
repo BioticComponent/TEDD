@@ -13,7 +13,7 @@ class Cell {
         noStroke();
         rectMode(CORNER);
         if (this.designation == 1) { //is roadCell 
-            if (cellDrawIteration == 0) {
+            if (roadCellDrawIteration == 0) {
                 fill(220);
                 rect(this.pos.x - 2, this.pos.y - 2, mapSize/dim + 4, mapSize/dim + 4);
             } else {
