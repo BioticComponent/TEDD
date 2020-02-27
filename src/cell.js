@@ -11,18 +11,22 @@ class Cell {
 
     show() {
         noStroke();
-        if (this.designation == 1) { //is roadCell 
-            fill(0);
-        } else { //is landCell
-            fill(200,255,200);
-        }
         rectMode(CORNER);
-        rect(this.pos.x, this.pos.y, mapSize/dim, mapSize/dim)
-        if (this.designation == 1) {
-            fill(150);
-            rectMode(CENTER);
-            rect(this.pos.x + mapSize/dim/2, this.pos.y + mapSize/dim/2, mapSize/dim/5, mapSize/dim/5 )
-        }
+        if (this.designation == 1) { //is roadCell 
+            if (cellDrawIteration == 0) {
+                fill(220);
+                rect(this.pos.x - 2, this.pos.y - 2, mapSize/dim + 4, mapSize/dim + 4);
+            } else {
+                fill(0);
+                rect(this.pos.x, this.pos.y, mapSize/dim, mapSize/dim)
+                fill(200);
+                rectMode(CENTER);
+                rect(this.pos.x + mapSize/dim/2, this.pos.y + mapSize/dim/2, mapSize/dim/4, mapSize/dim/4 )
+            }
+        } 
+        
+        
+        
     }
 
     rollover() {

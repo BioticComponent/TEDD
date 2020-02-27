@@ -69,7 +69,7 @@ function makeRoad(a,b, dir) {
         console.log("direction not recognized in call to makeRoad()");
         return;
     }
-    let i = 0; 
+    let i = 1; 
     let counter = 0;
     let roadLength = 0;
     while (1) {
