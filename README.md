@@ -23,8 +23,9 @@ View the current progress at https://bioticcomponent.github.io/TEDD/src/
 * a central headquarters where drivers remain while not on a delivery
 * building generation, really just a bunch of random rectangles, but it makes for a good urban environment
     * this is purely for visualization, there are no "addresses" assigned to the buildings
-* add and remove drivers with their corresponding button
-* no driver movement at the moment
+* add and remove drivers with a slider before the simulation starts
+* drivers will commute to hq after 'simulation start' is pressed
+* no delivery functionality as of yet
 
 #### Working on:
 * delivery event queue
