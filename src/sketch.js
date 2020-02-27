@@ -6,22 +6,34 @@ let edgeRoadCells = [];
 let noBuildCells = [];
 let hqCell;
 
-let drivers = [];
-let driversOnShift = 0;
+let driverRoster = [];
+let driversOnShift = [];
+let numDriversSlider;
 
+let startSimulationButton;
+let newMapButton;
+
+//project dimensions
 let dim = 100; // how many cells x cells in map
 let mapSize = 600; //size of map
 
+//holds the buildings canvas displayed below the road map
 let buildings;
 
-let cellDrawIteration = 0;
+let roadCellDrawIteration = 0;
+
+let simulationRunning = 0;
+let simulationsStartSequence = 0;
 
 
 function setup() {
     // randomSeed(1);
+    frameRate(20);
     createCanvas(mapSize + 150, mapSize);
+    background(100);
     
     buildings = createGraphics(mapSize, mapSize);
+    
 
     do {
         fullReset();
@@ -35,41 +47,47 @@ function setup() {
     makeBuildings();
     hireDrivers();
     
-
+    
     setupUI();
 }
+
 
 function draw() {
     background(100);
     imageMode(CORNER);
     image(buildings,0,0);
 
-    cellDrawIteration = 0;
+    roadCellDrawIteration = 0;
     for (let cell of allCells) {
         cell.show();
     }
-    cellDrawIteration = 1;
+    roadCellDrawIteration = 1;
     for (let cell of allCells) {
         cell.show();
     }
     
     showHeadQuarters();
 
-    for(let cell of noBuildCells) {
-        fill('red');
-        rect(cell.pos.x, cell.pos.y, (mapSize/dim), (mapSize/dim));
+    if (simulationsStartSequence) {
+        for (let driver of driversOnShift) {
+            driver.driveToWork();
+        }
     }
 
-    //move and display drivers
-    for (let driver of drivers) {
-        driver.move();
-        driver.show();
-    }
+    if (simulationRunning) {
+        //move and display drivers
+        for (let driver of driversOnShift) {
+            driver.move();
+            driver.show();
+        }
+    }   
 
     showBoundaries();
+    updateUI();
     // noLoop();
 }
 
+//initialize the drivers in the beginning
 function hireDrivers() {
     let availableColors = [color('red'), color('cyan'), color('yellow'), color('white'), color('orange'), color('magenta')];
     for (let i = 0; i < 6; i++) {
@@ -77,8 +95,11 @@ function hireDrivers() {
         driver.parkingSpot = i + 1;
         driver.color = availableColors[i];
         // driver.path = dijkstrasAtoB(driver.inlet, hqCell);
-        driver.location = hqCell;
-        drivers.push(driver);
+        driver.inlet = edgeRoadCells[floor(random(0,edgeRoadCells.length - 1))];
+        edgeRoadCells.splice(edgeRoadCells.indexOf(driver.inlet),1);
+        driver.location = driver.inlet;
+        driver.commute = dijkstrasAtoB(driver.inlet, hqCell);
+        driverRoster.push(driver);
     }
 }
 
@@ -94,6 +115,7 @@ function initializeCellGrid() {
     }
 }
 
+//create the HQ
 function setHeadQuarters() {
     hqCell = allCells[cellIndex(floor(dim/2),floor(dim/2))];
     let cornerCells = [];
@@ -119,6 +141,7 @@ function setHeadQuarters() {
 
 }
 
+//display the HQ in the middle of the map
 function showHeadQuarters() {
     let referenceCell = allCells[cellIndex(hqCell.i - 6, hqCell.j - 4)];
     //HQ grass boundary
@@ -144,6 +167,7 @@ function showHeadQuarters() {
     }
 }
 
+//gets a list of cells that are both on the edge and a road cell
 function getEdgeRoadCells() {
     let i, j;
     i = 0
@@ -175,6 +199,8 @@ function getEdgeRoadCells() {
 }
 
 //set all neighbors for each road cell
+//looks at immediately surrounding cell for each road cell
+//if surrounding cell is a neighbor, set as neighbor
 function setNeighbors() {
     for (let i = 0; i < roadCells.length; i++) {
         let cell = roadCells[i];
@@ -213,6 +239,7 @@ function setNeighbors() {
     }
 }
 
+//randomly put buildings on created buildings canvas
 function makeBuildings() {
     buildings.background(60,179,113);
     buildings.noStroke();
@@ -273,10 +300,12 @@ function makeBuildings() {
 //     }
 // }
 
+//white border around map and control panel
 function showBoundaries() {
     stroke(255);
     strokeWeight(10);
     noFill();
+    rectMode(CORNER);
     rect(0,0,mapSize,mapSize);
     rect(0,0,width, mapSize);
 }
