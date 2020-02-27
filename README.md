@@ -21,12 +21,12 @@ View the current progress at https://bioticcomponent.github.io/TEDD/src/
     * the algorithm continuously splits the map into two randomly sized parts until a certain minimum road length is met
     * a new map is generated with the 'generate new map' button
 * a central headquarters where drivers remain while not on a delivery
+* building generation, really just a bunch of random rectangles, but it makes for a good urban environment
+    * this is purely for visualization, there are no "addresses" assigned to the buildings
 * add and remove drivers with their corresponding button
 * no driver movement at the moment
 
 #### Working on:
-* random building generation
-    * the buildings will not correspond to an "address" for deliveries, they are purely for visual purposes
 * delivery event queue
     * an event queue will generate deliveries and assign them to a driver
 * driver specific event queue
