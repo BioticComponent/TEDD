@@ -12,6 +12,7 @@ let numDriversSlider;
 
 let startSimulationButton;
 let newMapButton;
+let speedOfSimulationSlider;
 
 //project dimensions
 let dim = 100; // how many cells x cells in map
@@ -25,27 +26,29 @@ let roadCellDrawIteration = 0;
 let simulationRunning = 0;
 let simulationsStartSequence = 0;
 
+let masterTime = 0;
+let masterQueue;
 
 function setup() {
     // randomSeed(1);
-    frameRate(20);
+    
     createCanvas(mapSize + 150, mapSize);
     background(100);
     
     buildings = createGraphics(mapSize, mapSize);
-    
+    masterQueue = new EventQueue();
 
     do {
         fullReset();
         initializeCellGrid();
         setHeadQuarters();
-        generateRoads();   
-        makeBuildings();   
+        generateRoads(); 
     } while (isNotValidMap());
     getEdgeRoadCells();
     setNeighbors();
     makeBuildings();
     hireDrivers();
+    
     
     
     setupUI();
@@ -54,6 +57,7 @@ function setup() {
 
 function draw() {
     background(100);
+    frameRate(speedOfSimulationSlider.value());
     imageMode(CORNER);
     image(buildings,0,0);
 
@@ -80,10 +84,13 @@ function draw() {
             driver.move();
             driver.show();
         }
+
+        masterTime++;
     }   
 
     showBoundaries();
     updateUI();
+    
     // noLoop();
 }
 
@@ -265,40 +272,7 @@ function makeBuildings() {
     }
 }
 
-//an implementation for a more specific makeBuilding function
-//currently not using this, but keeping it for safe keeping in case i change my mind later
-// function removeNonBuildingCells() {
-//     //remove roads
-//     for (let roadCell of roadCells) {
-//         noBuildCells.push(roadCell);
-//     }
-//     //remove edges
-//     for (let i = 0; i < dim; i++) {
-//         noBuildCells.push(allCells[cellIndex(i,0)]);
-//         noBuildCells.push(allCells[cellIndex(i,dim-1)]);
-//         noBuildCells.push(allCells[cellIndex(0,i)]);
-//         noBuildCells.push(allCells[cellIndex(dim-1,i)]);
-//     }
-//     //remove HQ plot
-//     let refCell = allCells[cellIndex(hqCell.i - 7, hqCell.j - 5)];
-//     for (let i = 0; i < 15; i++) {
-//         for (let j = 0; j < 5; j++) {
-//             noBuildCells.push(allCells[cellIndex(refCell.i + i, refCell.j + j)]);
-//         }
-//     }
-//     //remove one unit wide plots
-//     for (let i = 0; i < landCells.length; i++) {
-//         refCell = landCells[i];
-//         if (refCell.i != 0 && refCell.i != dim - 1 && refCell.j != 0 && refCell.j != dim - 1) {
-//             if (noBuildCells.includes(allCells[cellIndex(refCell.i - 1, refCell.j)]) && noBuildCells.includes(allCells[cellIndex(refCell.i + 1, refCell.j)])) {
-//                 noBuildCells.push(refCell);
-//             }
-//             if (noBuildCells.includes(allCells[cellIndex(refCell.i, refCell.j - 1)]) && noBuildCells.includes(allCells[cellIndex(refCell.i, refCell.j + 1)])) {
-//                 noBuildCells.push(refCell);
-//             }
-//         }
-//     }
-// }
+
 
 //white border around map and control panel
 function showBoundaries() {
