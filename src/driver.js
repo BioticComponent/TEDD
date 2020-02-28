@@ -5,6 +5,7 @@ class Driver {
         this.onDelivery = false;
         this.path = [];
         this.pathPosition = 0;
+        this.myEvents = [];
         this.inlet;
         this.location;
         this.commute;
@@ -32,6 +33,9 @@ class Driver {
             if (counter == driversOnShift.length) {
                 simulationRunning = 1;
                 simulationsStartSequence = 0;
+                for (let driver of driversOnShift) {
+                    driver.onDelivery = true;
+                }
             }
         }
         
@@ -39,17 +43,28 @@ class Driver {
 
     //NEEDS FIXIN
     move() {
-        if (this.onDelivery == true) {
-            if (this.pathPosition < this.path.length - 1) {
-                this.pathPosition += 1;
-                this.location = this.path[this.pathPosition];
-                if (this.location == hqCell && this.pathPosition == this.path.length - 1) {
-                    this.onDelivery = false;
-                    this.path.length = 0;
-                    this.pathPosition = 0;
-                }
-            }
+        if (this.pathPosition == this.path.length - 1) {
+            this.location = hqCell;
+            this.onDelivery = false;
+            return;
+        } 
+        if (this.myEvents[0] && this.path[this.pathPosition] == this.myEvents[0].address) {
+            masterQueue.remove(this.myEvents[0]);
+            this.myEvents.shift();
         }
+        this.pathPosition += 1;
+        this.location = this.path[this.pathPosition];
+        // if (this.onDelivery == true) {
+        //     if (this.pathPosition < this.path.length - 1) {
+        //         this.pathPosition += 1;
+        //         this.location = this.path[this.pathPosition];
+        //         if (this.location == hqCell && this.pathPosition == this.path.length - 1) {
+        //             this.onDelivery = false;
+        //             this.path.length = 0;
+        //             this.pathPosition = 0;
+        //         }
+        //     }
+        // }
     }
 
 
