@@ -25,7 +25,11 @@ View the current progress at https://bioticcomponent.github.io/TEDD/src/
     * this is purely for visualization, there are no "addresses" assigned to the buildings
 * add and remove drivers with a slider before the simulation starts
 * drivers will commute to hq after 'simulation start' is pressed
-* no delivery functionality as of yet
+    * there is a bit of lag after pressing 'simulation start' in this iteration due to delivery route configuration done all at once in the beginning
+    * this will be changed
+* the delivery system currently is working with no strategy, the deliveries are assigned in the beginning
+    * this iteration is just to get the drivers moving and go from there
+* the queue visual is also not acting synchronously with the drivers, something to work on.
 
 #### Working on:
 * delivery event queue
