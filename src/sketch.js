@@ -31,9 +31,11 @@ let masterQueue;
 
 function setup() {
     // randomSeed(1);
-    
     createCanvas(mapSize + 150, mapSize);
     background(100);
+
+    createP();
+    createA('https://github.com/BioticComponent/TEDD', 'Read about the current progress on Github here.');
     
     buildings = createGraphics(mapSize, mapSize);
     masterQueue = new EventQueue();
