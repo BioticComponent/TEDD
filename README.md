@@ -14,7 +14,7 @@ The simulation will keep track of statictics like average delivery times, driver
 
 ### Progress
 
-View the current progress at https://bioticcomponent.github.io/TEDD/src/
+View the current progress at https://joeuzdz.github.io/TEDD/src/
 
 #### Current capabilities include:
 * map generation using a recursive algorithm
